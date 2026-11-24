@@ -103,17 +103,22 @@ export function SizeFix({ fix, name }) {
   );
 }
 
+// The breakdown opens below the tile – or above it when the window has no room below (a tile near the bottom edge).
+const POP_H = 380;
+const roomAbove = (el) => { const r = el?.getBoundingClientRect?.(); if (!r) return false; const below = window.innerHeight - r.bottom, above = r.top; return below < POP_H && above > below; };
+
 function KpiTile({ k, i, onJump, onAll }) {
   const [open, setOpen] = useState(false);
+  const [up, setUp] = useState(false);
   const id = useId();
   const n = (k.items || []).length;
   // touch has no hover: a tap opens the full details (with "Nachprüfen") instead of a popover; mouse and keyboard as before
   const touch = useRef(false);
   return (
     <motion.div className="kpi-wrap" {...stagger(i, 0.04)}
-      onPointerEnter={(e) => { touch.current = e.pointerType !== 'mouse'; if (!touch.current) setOpen(true); }} onPointerLeave={(e) => { if (e.pointerType === 'mouse') setOpen(false); }}
+      onPointerEnter={(e) => { touch.current = e.pointerType !== 'mouse'; if (!touch.current) { setUp(roomAbove(e.currentTarget)); setOpen(true); } }} onPointerLeave={(e) => { if (e.pointerType === 'mouse') setOpen(false); }}
       onPointerDown={(e) => { touch.current = e.pointerType !== 'mouse'; }}
-      onFocus={(e) => { if (!touch.current && e.target.matches?.(':focus-visible')) setOpen(true); }} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); }}
+      onFocus={(e) => { if (!touch.current && e.target.matches?.(':focus-visible')) { setUp(roomAbove(e.currentTarget)); setOpen(true); } }} onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); }}
       onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false); }}>
       <button type="button" className={`kpi ${k.hot ? 'hot' : ''}`} onClick={() => { if (touch.current) { setOpen(false); onAll(); } else onJump?.(k.area); }} aria-describedby={open ? id : undefined}
         aria-label={`${k.label}: ${k.display}. ${k.foot}. ${tr('Rechnung', 'Calculation')}: ${k.calc}`}>
@@ -123,7 +128,7 @@ function KpiTile({ k, i, onJump, onAll }) {
       </button>
       {/* enter only – closing unmounts at once (exits stall in the Jira frame) */}
       {open && (
-          <motion.div id={id} role="tooltip" className={`kpi-pop ${i % 7 >= 4 ? 'right' : ''}`} {...popIn()}>
+          <motion.div id={id} role="tooltip" className={`kpi-pop ${i % 7 >= 4 ? 'right' : ''} ${up ? 'up' : ''}`} {...popIn()}>
             <Breakdown k={k} onAll={() => { setOpen(false); onAll(); }} />
             <div className="kpi-hint">
               <button type="button" className="linkbtn" onClick={(e) => { e.stopPropagation(); setOpen(false); onAll(); }}>{tr('Alle Details', 'All details')}{n ? ` (${n})` : ''} <Icon name="arrowRight" size={12} /></button>

@@ -387,6 +387,30 @@ const SUITES = {
     }
   },
   // Restores the configuration exactly as it was before the version history started (read-only otherwise).
+  // Exact restore after a test run that changed the configuration: the newest version saved before the cutoff (PCX-1
+  // property pc-restore-cutoff { at }), compared field by field afterwards (E2E 2026-11-24: denyRoles crashed mid-way).
+  async restoreBefore(t) {
+    const cut = (await req('/rest/api/3/issue/PCX-1/properties/pc-restore-cutoff')).body?.value?.at;
+    t('cutoff set', typeof cut === 'string' && cut.length > 10, String(cut));
+    if (!cut) return;
+    const hist = await call('config.history');
+    const after = hist.filter((h) => h.at >= cut);
+    const v = hist.filter((h) => h.at < cut).sort((a, b) => b.at.localeCompare(a.at))[0];
+    t('version before the cutoff found', !!v, v ? `${v.at} ${v.note || ''} ${v.byName || ''} · ${after.length} version(s) after the cutoff` : 'none');
+    if (!v) return;
+    await call('config.restore', { id: v.id });
+    const empty = (x) => x == null || x === '' || (Array.isArray(x) && !x.length) || (typeof x === 'object' && !Array.isArray(x) && !Object.keys(x).length);
+    const diff = (a, b, path, out) => {
+      if (empty(a) && empty(b)) return out;
+      if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null || Array.isArray(a) !== Array.isArray(b)) { if (JSON.stringify(a) !== JSON.stringify(b)) out.push(path); return out; }
+      for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) diff(a[k], b[k], path ? `${path}.${k}` : k, out);
+      return out;
+    };
+    const want = (await call('config.version', { id: v.id })).config;
+    const now = (await call('config.get')).config;
+    const d = diff(now, want, '', []).filter((p) => !/^(changedAt|changedBy|version|setupComplete)$/.test(p));
+    t('configuration equals that version (field by field)', !d.length, d.slice(0, 12).join(' | '));
+  },
   async restoreOrig(t) {
     const hist = await call('config.history');
     const orig = hist.find((v) => v.note === 'before-history');
@@ -1553,12 +1577,13 @@ const SUITES = {
       const want = Math.max(0, gross * Math.max(0.05, 1 - ((+st.dailyBusinessPct || 0) + (+st.internalPct || 0)) / 100) - sup);
       const avTile = tiles.find((k) => /Für Projekte je Woche|For projects per week/.test(k.textContent));
       const shown = num(avTile?.querySelector('.kpi-value')?.textContent);
-      if (!derived) t(`${teamName}: "for projects per week" = settings (${gross} h × (1 − ${st.dailyBusinessPct} % − ${st.internalPct || 0} %) − ${Math.round(sup * 10) / 10} h support)`, Math.abs(shown - want) <= 0.6, `tile ${shown} · recomputed ${Math.round(want * 10) / 10}`);
+      if (!derived) t(`${teamName}: "for projects per week" = settings (${gross} h × (1 − ${st.dailyBusinessPct} % − ${st.internalPct || 0} %) − ${Math.round(sup * 10) / 10} h support)`, Math.abs(shown - want) <= 0.6, `tile ${shown} · recomputed ${Math.round(want * 10) / 10} · tile calc: ${calcOf(avTile)} · members: ${calcOf(tiles[0])} · test people: ${[...capacityPeople(c.model).values()].filter((p) => shareOf(p, id) > 0).map((p) => `${p.weeklyHours}×${Math.round(shareOf(p, id) * 100)}%`).join(' + ')}`);
       else t(`${teamName}: people derived from assignments (defaults) – skipped`, true, `${derived} derived`);
     }
     // the breakdown opens on hover/focus and shows the calculation
     const tile = document.querySelector('main .kpi');
     const wrap = tile?.closest('.kpi-wrap');
+    wrap?.scrollIntoView({ block: 'center' }); await sleep(300); // a person hovers a tile they can see
     wrap?.dispatchEvent(new PointerEvent('pointerover', { bubbles: true, pointerType: 'mouse', relatedTarget: document.body }));
     wrap?.dispatchEvent(new PointerEvent('pointerenter', { bubbles: false, pointerType: 'mouse', relatedTarget: document.body }));
     const pop = await waitFor(() => document.querySelector('.kpi-pop'), 3000);
@@ -1901,7 +1926,13 @@ const SUITES = {
     const ME = (await call('bootstrap')).me.id;
     // Move every app role to a group Dev Team is NOT in; admin still can (config is admin-only).
     t('step ctx ok', true, Object.keys(c.groups).join());
-    try { await call('config.save', { config: sandboxConfig(c.groups, 'pc-test-projectadmins') }); } catch (e) { t('config.save to projectadmins', false, e.code + ' ' + e.message); throw e; }
+    // only the roles move to another group – on top of the CURRENT configuration (never the old sandbox one), restored
+    // in finally even when a check crashes (E2E 2026-11-24)
+    const before = (await call('config.get')).config;
+    const revoked = (extra = {}) => ({ ...before, permissions: sandboxConfig(c.groups, 'pc-test-projectadmins').permissions, ...extra });
+    let unassigned = null;
+    try {
+    try { await call('config.save', { config: revoked() }); } catch (e) { t('config.save to projectadmins', false, e.code + ' ' + e.message); throw e; }
     t('step config saved', true);
     const b = await call('bootstrap');
     t('roles revoked', !b.roles.manageRanking && !b.roles.viewReport && !b.roles.editCapacity, JSON.stringify(b.roles));
@@ -1918,6 +1949,7 @@ const SUITES = {
     t('capacity.save denied', (await expectErr('capacity.save', { capacity: { people: {}, teams: {}, absences: [] } }, 'NO_ACCESS')).ok);
     const pcx = c.epics.find((e) => e.fields.project.key === 'PCX' && e.key !== c.epics[0].key);
     await req(`/rest/api/3/issue/${pcx.id}`, { method: 'PUT', body: JSON.stringify({ fields: { assignee: null } }) });
+    unassigned = pcx;
     t('health denied for non-owner without group', (await expectErr('health.set', { ref: `issue:${pcx.id}`, status: 'onTrack', comment: 'x' }, 'NO_ACCESS')).ok);
     t('health.clear denied for non-owner', (await expectErr('health.clear', { ref: `issue:${pcx.id}` }, 'NO_ACCESS')).ok);
     t('ai.healthDraft denied for non-owner (or AI off)', (await expectErr('ai.healthDraft', { ref: `issue:${pcx.id}` }, 'NO_ACCESS')).ok || (await expectErr('ai.healthDraft', { ref: `issue:${pcx.id}` }, 'AI_DISABLED')).ok);
@@ -1925,14 +1957,18 @@ const SUITES = {
     const mine = c.epics.find((e) => e.fields.assignee?.accountId === ME && e.fields.project.key === 'PCX' && e.id !== pcx.id);
     t('health allowed for own project (owner)', (await call('health.set', { ref: `issue:${mine.id}`, status: 'onTrack', comment: 'Owner darf immer.' })).status === 'onTrack');
     await req(`/rest/api/3/issue/${pcx.id}`, { method: 'PUT', body: JSON.stringify({ fields: { assignee: { accountId: ME } } }) });
+    unassigned = null;
     const ds2 = await call('dataset');
     t('capacity absences without reason for non-editors', (ds2.capacity.absences || []).every((x) => x.type === 'absent'), JSON.stringify(ds2.capacity.absences));
-    await call('config.save', { config: { ...sandboxConfig(c.groups, 'pc-test-projectadmins'), rules: { ...sandboxConfig(c.groups).rules, personLevel: false } } });
+    await call('config.save', { config: revoked({ rules: { ...(before.rules || {}), personLevel: false } }) });
     const ds3 = await call('dataset');
     t('person level off: assignees pseudonymized', ds3.issues.filter((i) => i.assignee).every((i) => i.assignee.anon && !i.assignee.name && i.assignee.id.startsWith('anon-')), `${ds3.issues.filter((i) => i.assignee).length} assignees`);
     t('person level off: worklog authors pseudonymized', ds3.issues.flatMap((i) => i.worklogs).every((w) => !w.a || w.a.startsWith('anon-')));
     t('person level off: no real account ids in people/capacity', !JSON.stringify({ p: ds3.people, c: ds3.capacity }).includes('712020:9965b502') || Object.keys(ds3.people).every((k) => ds3.portfolio.some((p) => p.owner?.id === k)));
-    await call('config.save', { config: sandboxConfig(c.groups) }); // restore
+    } finally {
+      if (unassigned) await req(`/rest/api/3/issue/${unassigned.id}`, { method: 'PUT', body: JSON.stringify({ fields: { assignee: { accountId: ME } } }) }).catch(() => {});
+      await call('config.save', { config: before }); // restore exactly what was there
+    }
     t('roles restored', (await call('bootstrap')).roles.manageRanking);
   },
   // Meine Arbeit (UC-20) live: reads the own week, then books on ONE sandbox story (PCX) – only if this account has
@@ -2796,7 +2832,9 @@ const SUITES = {
         const pv = st.steps.find((x) => x.kind === 'preview');
         t(`mission "${id}" plans on this site's data up to the preview`, !!cur && (cur.kind === 'preview' || cur.kind === 'summary') && !bad.length && !uns.length,
           `${ms} ms · ${st.steps.length} steps · now ${cur?.kind} · ${plan ? plan.headline : st.steps.find((x) => x.kind === 'summary')?.note || ''}${pv ? ` · preview ${pv.count} changes${pv.warnings.length ? ` · ${pv.warnings[0]}` : ''}` : ''}${bad.length ? ` · story problems: ${bad.slice(0, 3).join('; ')}` : ''}${uns.length ? ` · unsourced: ${uns.slice(0, 3).map((x) => `${x.number} in "${String(x.text || '').slice(0, 90)}"`).join('; ')}` : ''}`);
-        if (id === 'balanceWeek' && plan) t('with the plan this week is within 100 %', (k('after0') ?? 0) <= 100, `before ${k('before0')} % → after ${k('after0')} % · ${k('moves')} changes · ${k('late')} later than due`);
+        // more work than time (as below): this week may stay over 100 % – but only when the plan says what does not fit
+        const tooMuch = !!plan && JSON.stringify(plan.findings || []).match(/Mehr Arbeit als Zeit|More work than time/);
+        if (id === 'balanceWeek' && plan) t('with the plan this week is within 100 % – or the plan says what does not fit', (k('after0') ?? 0) <= 100 || !!tooMuch, `before ${k('before0')} % → after ${k('after0')} % · ${plan.headline}${tooMuch ? ' · reported: more work than time' : ''}`);
         // every planned week – not only this one – ends within 100 %; where not, which stories fill it (read-only diagnosis)
         if (id === 'balanceWeek' && boot.me?.id) {
           const { replan } = await import('@shared/lotse/plan/replan.js');
@@ -3279,7 +3317,10 @@ const SUITES = {
     t('ai.reportSummary for report group', s.text?.length > 20, `${s.source}: ${s.text?.slice(0, 90)}`);
   },
   async undo(t, c) {
-    const epic = c.epics.find((e) => e.fields.project.key === 'PCX' && e.fields.assignee);
+    // a PCX project of the portfolio as configured (Epic or another work type such as Project)
+    const port = (await call('dataset')).portfolio.filter((p) => p.kind === 'issue' && /^PCX-/.test(p.key || ''));
+    const epic = port.find((p) => p.owner) || port[0];
+    if (!epic) { t('a PCX project in the portfolio to test undo on', false, 'none'); return; }
     const ref = `issue:${epic.id}`;
     const hOf = async () => (await call('dataset')).portfolio.find((p) => p.ref === ref)?.health || null;
     const h0 = await hOf();
