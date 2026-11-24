@@ -21,3 +21,17 @@ test('big data: year check, My week, portfolio briefing and multi-team check –
     }
   }
 });
+
+// Live E2E 2026-11-25: when even rank 1 cannot be staffed, the briefing says «… from rank 1 (…)» – that rank is sourced too.
+test('portfolio briefing and its why: «from rank N» is sourced, also when rank 1 is the first bottleneck (de + en)', { timeout: 300_000 }, () => {
+  const ds = bigDataset('S');
+  for (const p of Object.values(ds.capacity?.people || {})) p.weeklyHours = 1; // almost no capacity: rank 1 is short
+  const computed = computeAll(ds);
+  for (const lang of ['de', 'en']) {
+    const ctx = { ds, computed, lang, me: { id: null, name: 'Probe' }, roles: { admin: true, editCapacity: true, logs: 'all' } };
+    const s = L.run('portfolioBrief', {}, ctx);
+    const text = JSON.stringify(s.findings || []);
+    assert.ok(/(ab Rang|from rank) 1 /.test(text), `${lang}: rank 1 is the first bottleneck in this data`);
+    assert.deepEqual(L.selfCheck(s), [], `${lang}: every number sourced`);
+  }
+});

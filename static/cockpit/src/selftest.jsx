@@ -408,7 +408,7 @@ const SUITES = {
     };
     const want = (await call('config.version', { id: v.id })).config;
     const now = (await call('config.get')).config;
-    const d = diff(now, want, '', []).filter((p) => !/^(changedAt|changedBy|version|setupComplete)$/.test(p));
+    const d = diff(now, want, '', []).filter((p) => !/^((ai\.)?changedAt|(ai\.)?changedBy|version|setupComplete)$/.test(p)); // ai.changedAt/By: audit stamp of every AI change, the restore itself is one
     t('configuration equals that version (field by field)', !d.length, d.slice(0, 12).join(' | '));
   },
   async restoreOrig(t) {
@@ -3056,7 +3056,8 @@ const SUITES = {
   // AI on (user request 2026-11-11, superportdev only): switches Forge LLM on with every feature, data minimisation stays
   // ON (no names, no texts). Idempotent: saves only when something differs. Changes nothing else in the configuration.
   async aiEnable(t) {
-    const FEATURES = ['ask', 'healthDraft', 'reportSummary', 'planning', 'gaps', 'dispatch', 'planActual', 'teamBrief', 'projectBrief', 'myWeek'];
+    // every AI feature of the app (config.js DEFAULT_AI.features) – the E2E of 2026-11-25 tests them all
+    const FEATURES = ['ask', 'healthDraft', 'reportSummary', 'planning', 'gaps', 'dispatch', 'planActual', 'teamBrief', 'projectBrief', 'myWeek', 'intent', 'similarSummary', 'playbookDraft', 'lotse'];
     const cfg = (await call('config.get')).config;
     const ai0 = cfg.ai || {};
     t('before (ai block, for an exact revert)', true, JSON.stringify(ai0));
@@ -3303,10 +3304,18 @@ const SUITES = {
     if (!mineBefore) await call('prefs.save', { ai: false });
   },
   async ai(t, c) {
-    if ((await call('bootstrap')).config?.ai?.enabled !== true) { t('AI is switched off – answers not testable (see aiSwitch)', true, 'N/A'); return; }
+    const boot0 = await call('bootstrap');
+    if (boot0.config?.ai?.enabled !== true) { t('AI is switched off – answers not testable (see aiSwitch)', true, 'N/A'); return; }
+    // AI is also per person (default off, the server refuses with AI_USER_OFF): on for this run, restored afterwards
+    const mineBefore = boot0.config?.ai?.user === true;
+    t('AI_USER_OFF while the person has not switched AI on', mineBefore || (await expectErr('ai.ask', { question: 'Was ist wichtig?', lang: 'de' }, 'AI_USER_OFF')).ok);
+    if (!mineBefore) await call('prefs.save', { ai: true });
+    try {
     const a = await call('ai.ask', { question: 'Was braucht diese Woche Aufmerksamkeit?', lang: 'de' });
     t('ai.ask answers', a.text?.length > 20 && ['ai', 'fallback'].includes(a.source), `${a.source}${a.reason ? ' ' + a.reason : ''}: ${a.text?.slice(0, 90)}`);
-    const pcx = c.epics.find((e) => e.fields.project.key === 'PCX' && e.fields.assignee);
+    // a project of the portfolio as configured (Epic or another work type such as Project)
+    const port = (await call('dataset')).portfolio.filter((p) => p.kind === 'issue' && /^PCX-/.test(p.key || ''));
+    const pcx = port.find((p) => p.owner) || port[0];
     const b = await call('ai.ask', { question: 'Give me a briefing on this project.', ref: `issue:${pcx.id}`, lang: 'en' });
     t('ai.ask with project focus', b.text?.length > 20, `${b.source}: ${b.text?.slice(0, 90)}`);
     t('ai.ask rejects empty question', (await expectErr('ai.ask', { question: ' ' }, 'INVALID')).ok);
@@ -3315,6 +3324,7 @@ const SUITES = {
     t('ai.healthDraft returns status + sentence', ['onTrack', 'atRisk', 'critical'].includes(d.status) && d.comment.length > 5 && d.comment.length <= 280, `${d.source}: ${d.status} ${d.comment.slice(0, 80)}`);
     const s = await call('ai.reportSummary', { lang: 'de' });
     t('ai.reportSummary for report group', s.text?.length > 20, `${s.source}: ${s.text?.slice(0, 90)}`);
+    } finally { if (!mineBefore) await call('prefs.save', { ai: false }); }
   },
   async undo(t, c) {
     // a PCX project of the portfolio as configured (Epic or another work type such as Project)
