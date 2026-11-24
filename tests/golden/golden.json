@@ -1,0 +1,39 @@
+{
+  "_about": "Golden dataset. Expected values are computed independently in golden.xlsx (plain Excel formulas) and must equal the engine's. Decisions referenced: D2 D3 D4 D6 D7 D8 D10 D11 D13 (docs/DECISIONS.md).",
+  "today": "2026-11-02",
+  "config": {
+    "levels": [
+      { "key": "ws", "name": "Workstream", "role": "rough", "issueTypeIds": ["2"] },
+      { "key": "ep", "name": "Epic", "role": "structure", "issueTypeIds": ["3"] },
+      { "key": "st", "name": "Story", "role": "estimate", "issueTypeIds": ["4"] },
+      { "key": "sub", "name": "Sub-task", "role": "tiny", "issueTypeIds": ["5"] }
+    ],
+    "tshirtSizes": [{ "key": "S", "hours": 120 }, { "key": "M", "hours": 320 }],
+    "dependencies": { "linkTypeIds": ["10000"] },
+    "rules": { "distribution": "linear", "forecastThresholdPct": 10 }
+  },
+  "portfolio": [
+    { "ref": "issue:p1", "rank": 1, "kind": "issue", "id": "p1", "key": "TEL-1", "name": "Billing", "owner": { "id": "u9", "name": "Owner" }, "statusCat": "indeterminate", "due": "2027-03-31" },
+    { "ref": "issue:p2", "rank": 2, "kind": "issue", "id": "p2", "key": "TEL-2", "name": "CRM", "owner": { "id": "u9", "name": "Owner" }, "statusCat": "indeterminate", "due": "2027-01-29" }
+  ],
+  "issues": [
+    { "id": "w1", "key": "TEL-10", "summary": "WS Billing", "role": "rough", "levelKey": "ws", "parentId": "p1", "rootRef": "issue:p1", "status": { "cat": "indeterminate" }, "team": { "id": "web", "name": "Web" }, "tshirt": "M", "quarters": ["2026-Q4", "2027-Q1"] },
+    { "id": "e1", "key": "TEL-11", "summary": "Epic Billing", "role": "structure", "levelKey": "ep", "parentId": "w1", "rootRef": "issue:p1", "status": { "cat": "indeterminate" }, "team": { "id": "web", "name": "Web" } },
+    { "id": "s1", "key": "TEL-12", "summary": "S1 dated", "role": "estimate", "levelKey": "st", "parentId": "e1", "rootRef": "issue:p1", "status": { "cat": "indeterminate" }, "team": { "id": "web", "name": "Web" }, "start": "2026-11-02", "due": "2026-11-27", "oe": 100, "re": 40, "ts": 60 },
+    { "id": "s2", "key": "TEL-13", "summary": "S2 undated, no team", "role": "estimate", "levelKey": "st", "parentId": "e1", "rootRef": "issue:p1", "status": { "cat": "new" }, "team": null, "oe": 50, "re": 50, "ts": 0 },
+    { "id": "w2", "key": "TEL-20", "summary": "WS CRM", "role": "rough", "levelKey": "ws", "parentId": "p2", "rootRef": "issue:p2", "status": { "cat": "indeterminate" }, "team": { "id": "web", "name": "Web" }, "tshirt": "S", "quarters": ["2026-Q4"] },
+    { "id": "e2", "key": "TEL-21", "summary": "Epic CRM", "role": "structure", "levelKey": "ep", "parentId": "w2", "rootRef": "issue:p2", "status": { "cat": "indeterminate" }, "team": { "id": "web", "name": "Web" } },
+    { "id": "s3", "key": "TEL-22", "summary": "S3 Web", "role": "estimate", "levelKey": "st", "parentId": "e2", "rootRef": "issue:p2", "status": { "cat": "new" }, "team": { "id": "web", "name": "Web" }, "start": "2026-11-16", "due": "2026-12-18", "oe": 80, "re": 80, "ts": 0 },
+    { "id": "s4", "key": "TEL-23", "summary": "S4 Data next quarter", "role": "estimate", "levelKey": "st", "parentId": "e2", "rootRef": "issue:p2", "status": { "cat": "new" }, "team": { "id": "data", "name": "Data" }, "start": "2027-01-11", "due": "2027-01-29", "oe": 40, "re": 40, "ts": 0 }
+  ],
+  "teams": [{ "id": "web", "name": "Web" }, { "id": "data", "name": "Data" }],
+  "capacity": {
+    "people": { "u1": { "weeklyHours": 20, "location": "NONE", "teamId": "web" } },
+    "teams": {
+      "web": { "name": "Web", "dailyBusinessPct": 20, "absenceRatePct": 10 },
+      "data": { "name": "Data", "dailyBusinessPct": 0, "absenceRatePct": 0, "extraWeeklyHours": 20 }
+    },
+    "absences": []
+  },
+  "supportComputed": { "reserveQuarter": { "web": 60 }, "personWeekly": {}, "teams": [], "services": [] }
+}

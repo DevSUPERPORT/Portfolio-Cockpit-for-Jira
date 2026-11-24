@@ -1,0 +1,72 @@
+{
+ "issue:p1": {
+  "OE": 150,
+  "TS": 60,
+  "RE": 90,
+  "openQ4": 10,
+  "openQ1": 160,
+  "openTshirt": 170,
+  "progress": 0.1875,
+  "maturity": 0.46875,
+  "forecast": 150,
+  "demandWebQ4": 50,
+  "demandNoneQ4": 50,
+  "demandDataQ1": 0
+ },
+ "issue:p2": {
+  "OE": 120,
+  "TS": 0,
+  "RE": 120,
+  "openQ4": 40,
+  "openQ1": 0,
+  "openTshirt": 40,
+  "progress": 0,
+  "maturity": 0.75,
+  "forecast": 120,
+  "demandWebQ4": 120,
+  "demandNoneQ4": 0,
+  "demandDataQ1": 40
+ },
+ "wl": {
+  "webQ4": {
+   "capacity": 172.8,
+   "rows": [
+    {
+     "k": "S",
+     "d": 60,
+     "cum": 60,
+     "status": "ok"
+    },
+    {
+     "k": "issue:p1",
+     "d": 50,
+     "cum": 110,
+     "status": "ok"
+    },
+    {
+     "k": "issue:p2",
+     "d": 120,
+     "cum": 230,
+     "status": "partial"
+    }
+   ]
+  },
+  "dataQ1": {
+   "capacity": 240,
+   "rows": [
+    {
+     "k": "S",
+     "d": 0,
+     "cum": 0,
+     "status": "ok"
+    },
+    {
+     "k": "issue:p2",
+     "d": 40,
+     "cum": 40,
+     "status": "ok"
+    }
+   ]
+  }
+ }
+}

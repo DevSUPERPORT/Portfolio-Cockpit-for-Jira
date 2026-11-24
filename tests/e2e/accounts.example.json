@@ -1,0 +1,7 @@
+[
+  { "role": "employee", "email": "pc-employee@your-test-domain", "password": "set-me", "mustSee": ["PCX-3"], "mustNotSee": ["PCR-1"] },
+  { "role": "owner", "email": "pc-owner@your-test-domain", "password": "set-me", "mustNotSee": ["PCR-1"] },
+  { "role": "projectAdmin", "email": "pc-projectadmin@your-test-domain", "password": "set-me" },
+  { "role": "management", "email": "pc-management@your-test-domain", "password": "set-me" },
+  { "role": "restricted", "email": "pc-restricted@your-test-domain", "password": "set-me", "mustSee": ["PCR-1"] }
+]

@@ -1,0 +1,76 @@
+{
+  "PCX-21": {
+    "stories": 8,
+    "OE": 236,
+    "TS": 0,
+    "RE": 236,
+    "forecast": 236,
+    "forecastDev": 0,
+    "tshirt": 160,
+    "openTshirt": 0,
+    "lapsed": 0,
+    "reife": 1,
+    "progress": 0,
+    "dqComplete": 7,
+    "dqTotal": 9,
+    "dq": 0.7777777777777778,
+    "pastDue": 0
+  },
+  "PCX-3": {
+    "stories": 7,
+    "OE": 204,
+    "TS": 36,
+    "RE": 168,
+    "forecast": 204,
+    "forecastDev": 0,
+    "tshirt": 160,
+    "openTshirt": 55.111111111111114,
+    "lapsed": 0,
+    "reife": 0.7873070325900515,
+    "progress": 0.13893653516295026,
+    "dqComplete": 8,
+    "dqTotal": 8,
+    "dq": 1,
+    "pastDue": 1
+  },
+  "PCX-32": {
+    "stories": 8,
+    "OE": 192,
+    "TS": 0,
+    "RE": 192,
+    "forecast": 192,
+    "forecastDev": 0,
+    "tshirt": 0,
+    "openTshirt": 0,
+    "lapsed": 0,
+    "reife": null,
+    "progress": 0,
+    "dqComplete": 5,
+    "dqTotal": 9,
+    "dq": 0.5555555555555556,
+    "pastDue": 0
+  },
+  "PCX-46": {
+    "stories": 8,
+    "OE": 292,
+    "TS": 188,
+    "RE": 114,
+    "forecast": 302,
+    "forecastDev": 0.03424657534246567,
+    "tshirt": 0,
+    "openTshirt": 0,
+    "lapsed": 0,
+    "reife": null,
+    "progress": 0.6225165562913907,
+    "dqComplete": 6,
+    "dqTotal": 9,
+    "dq": 0.6666666666666666,
+    "pastDue": 8
+  },
+  "booked": {
+    "P1": {
+      "oct": 132,
+      "nov1to4": 0
+    }
+  }
+}

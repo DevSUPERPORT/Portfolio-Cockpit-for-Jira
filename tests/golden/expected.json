@@ -1,0 +1,134 @@
+[
+ {
+  "metric": "P1 Original Estimate",
+  "spreadsheet": 150.0,
+  "engine": 150,
+  "result": "PASS"
+ },
+ {
+  "metric": "P1 Time Spent",
+  "spreadsheet": 60.0,
+  "engine": 60,
+  "result": "PASS"
+ },
+ {
+  "metric": "P1 Remaining",
+  "spreadsheet": 90.0,
+  "engine": 90,
+  "result": "PASS"
+ },
+ {
+  "metric": "P1 open T-shirt Q4",
+  "spreadsheet": 10.0,
+  "engine": 10,
+  "result": "PASS"
+ },
+ {
+  "metric": "P1 open T-shirt Q1",
+  "spreadsheet": 160.0,
+  "engine": 160,
+  "result": "PASS"
+ },
+ {
+  "metric": "P1 progress",
+  "spreadsheet": 0.1875,
+  "engine": 0.1875,
+  "result": "PASS"
+ },
+ {
+  "metric": "P1 maturity",
+  "spreadsheet": 0.46875,
+  "engine": 0.46875,
+  "result": "PASS"
+ },
+ {
+  "metric": "P1 forecast",
+  "spreadsheet": 150.0,
+  "engine": 150,
+  "result": "PASS"
+ },
+ {
+  "metric": "P1 Web demand Q4",
+  "spreadsheet": 50.0,
+  "engine": 50,
+  "result": "PASS"
+ },
+ {
+  "metric": "P1 no-team demand Q4",
+  "spreadsheet": 50.0,
+  "engine": 50,
+  "result": "PASS"
+ },
+ {
+  "metric": "P2 Original Estimate",
+  "spreadsheet": 120.0,
+  "engine": 120,
+  "result": "PASS"
+ },
+ {
+  "metric": "P2 open T-shirt Q4",
+  "spreadsheet": 40.0,
+  "engine": 40,
+  "result": "PASS"
+ },
+ {
+  "metric": "P2 progress",
+  "spreadsheet": 0.0,
+  "engine": 0,
+  "result": "PASS"
+ },
+ {
+  "metric": "P2 maturity",
+  "spreadsheet": 0.75,
+  "engine": 0.75,
+  "result": "PASS"
+ },
+ {
+  "metric": "P2 Web demand Q4",
+  "spreadsheet": 120.0,
+  "engine": 120,
+  "result": "PASS"
+ },
+ {
+  "metric": "P2 Data demand Q1",
+  "spreadsheet": 40.0,
+  "engine": 40,
+  "result": "PASS"
+ },
+ {
+  "metric": "Web Q4 capacity",
+  "spreadsheet": 172.8,
+  "engine": 172.8,
+  "result": "PASS"
+ },
+ {
+  "metric": "Web Q4 cumulative after #2",
+  "spreadsheet": 230.0,
+  "engine": 230,
+  "result": "PASS"
+ },
+ {
+  "metric": "Data Q1 capacity",
+  "spreadsheet": 240.0,
+  "engine": 240,
+  "result": "PASS"
+ },
+ {
+  "metric": "Web Q4 status #1",
+  "spreadsheet": "ok",
+  "engine": "ok",
+  "result": "PASS"
+ },
+ {
+  "metric": "Web Q4 status #2",
+  "spreadsheet": "partial",
+  "engine": "partial",
+  "result": "PASS"
+ },
+ {
+  "metric": "Data Q1 status #2",
+  "spreadsheet": "ok",
+  "engine": "ok",
+  "result": "PASS"
+ }
+]

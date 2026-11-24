@@ -1,0 +1,38 @@
+{
+ "S": {
+  "computeAll": 124,
+  "buildBoard team": 15,
+  "buildBoard all": 34,
+  "optimizeAll team": 456,
+  "optimizeAll all": 557,
+  "realisticCapacity": 162,
+  "lotse ask cold": 520,
+  "lotse ask warm (20 q)": 13,
+  "lotse briefing": 201,
+  "lotse whatIf": 14
+ },
+ "M": {
+  "computeAll": 457,
+  "buildBoard team": 79,
+  "buildBoard all": 290,
+  "optimizeAll team": 939,
+  "optimizeAll all": 946,
+  "realisticCapacity": 326,
+  "lotse ask cold": 2230,
+  "lotse ask warm (20 q)": 41,
+  "lotse briefing": 1017,
+  "lotse whatIf": 104
+ },
+ "L": {
+  "computeAll": 5615,
+  "buildBoard team": 696,
+  "buildBoard all": 2048,
+  "optimizeAll team": 13348,
+  "optimizeAll all": 8702,
+  "realisticCapacity": 1953,
+  "lotse ask cold": 5117,
+  "lotse ask warm (20 q)": 112,
+  "lotse briefing": 2128,
+  "lotse whatIf": 170
+ }
+}

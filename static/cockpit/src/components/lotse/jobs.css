@@ -1,0 +1,77 @@
+/* Lotse orchestration – "Auftrag ausführen" (lj-): the plan as a pipeline, the personal sections as tabs, the document
+   outline in the preview, the result with downloads, texts to copy and the proof. Calm paper like the story card;
+   the accent marks only what the person acts on. Motion: transform / opacity only. Works down to 375 px. */
+.lj-plan { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: var(--r-lg); border: 1px solid var(--line-soft); background: var(--surface-2); }
+.lj-pipe { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; }
+.lj-pipe-step { position: relative; display: flex; gap: 8px; align-items: flex-start; padding: 8px 10px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line-soft); min-width: 0; }
+.lj-pipe-n { width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center; flex: none; background: var(--accent-soft); color: var(--accent-ink, var(--accent-strong)); }
+.lj-pipe-t { display: flex; flex-direction: column; gap: 1px; min-width: 0; font-size: 12px; line-height: 1.35; color: var(--ink-2); overflow-wrap: anywhere; }
+.lj-pipe-t b { font-size: 12.5px; color: var(--ink); font-weight: 620; }
+.lj-sources { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: 0; font-size: 12px; }
+.lj-chip { display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line-soft); color: var(--ink); font-size: 11.5px; }
+.lj-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--line-strong); display: inline-block; }
+.lj-dot.ok { background: var(--ok); }
+.lj-dot.warn { background: var(--warn); }
+.lj-dot.bad { background: var(--bad); }
+.lj-dot.info { background: var(--info); }
+
+.lj-sections { display: flex; flex-direction: column; gap: 8px; }
+.lj-sec-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.lj-tabs { display: flex; gap: 4px; overflow-x: auto; padding: 3px; border-radius: 999px; background: var(--sunken); scrollbar-width: thin; }
+.lj-tab { position: relative; display: inline-flex; align-items: center; gap: 6px; flex: none; height: 28px; padding: 0 11px; border: 0; border-radius: 999px; background: none; color: var(--ink-2); font-size: 12.5px; cursor: pointer; white-space: nowrap; }
+.lj-tab > * { position: relative; z-index: 1; }
+.lj-tab.on { color: var(--ink); font-weight: 600; }
+.lj-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.lj-tab > .lj-tab-hl { position: absolute; inset: 0; border-radius: 999px; background: var(--surface); box-shadow: var(--shadow-1); z-index: 0; }
+.lj-panel { display: flex; flex-direction: column; gap: 8px; }
+.lj-sugg { margin-top: 8px; padding: 10px 12px; border-radius: var(--r-lg); background: var(--accent-soft); font-size: 12.5px; }
+.lj-sugg b { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent-ink, var(--accent-strong)); }
+.lj-sugg ul { margin: 6px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 3px; color: var(--ink); }
+
+.lj-outline { display: flex; gap: 14px; align-items: flex-start; padding: 10px 12px; border-radius: var(--r-lg); background: var(--surface-2); border: 1px solid var(--line-soft); }
+.lj-doc { width: 46px; height: 62px; flex: none; border-radius: 4px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-1); display: flex; flex-direction: column; gap: 4px; padding: 0 0 6px; overflow: hidden; }
+.lj-doc-band { display: block; height: 14px; background: var(--ink); border-bottom: 2px solid var(--accent); margin-bottom: 3px; }
+.lj-doc-line { display: block; height: 3px; margin: 0 6px; border-radius: 2px; background: var(--line); }
+.lj-doc-line.w70 { width: 70%; }
+.lj-doc-line.w45 { width: 45%; }
+.lj-doc-line.w60 { width: 60%; }
+.lj-outline ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
+.lj-outline li { display: flex; align-items: center; gap: 8px; font-size: 12.5px; min-width: 0; }
+.lj-outline li svg { color: var(--ink-3); flex: none; }
+.lj-outline li .grow { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+.lj-result { display: flex; flex-direction: column; gap: 10px; }
+.lj-res-files { display: flex; flex-direction: column; gap: 6px; }
+.lj-file { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--r-lg); border: 1px solid var(--line); background: var(--surface); flex-wrap: wrap; }
+.lj-file .grow { display: flex; flex-direction: column; gap: 1px; min-width: 0; flex: 1 1 160px; font-size: 13px; }
+.lj-file .grow b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lj-file-ic { width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; flex: none; background: var(--bad-soft); color: var(--bad); }
+.lj-each { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 4px; }
+.lj-each li { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: var(--r); background: var(--surface-2); font-size: 12.5px; min-width: 0; }
+.lj-each li .grow { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lj-msgs { border: 1px solid var(--line-soft); border-radius: var(--r-lg); background: var(--surface-2); overflow: hidden; }
+.lj-msgs-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 8px 12px; border-bottom: 1px solid var(--line-soft); font-size: 13px; }
+.lj-msgs-head > .faint { flex: 1 1 160px; }
+.lj-msgs ul { list-style: none; margin: 0; padding: 4px; display: flex; flex-direction: column; gap: 2px; max-height: 420px; overflow: auto; }
+.lj-msgs li { border-radius: var(--r); }
+.lj-msgs li.on { background: var(--surface); box-shadow: var(--shadow-1); }
+.lj-msg-row { display: flex; align-items: center; gap: 6px; padding: 2px 4px 2px 0; }
+.lj-msg-to { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; text-align: left; padding: 6px 8px; border: 0; background: none; color: var(--ink); font-size: 12.5px; cursor: pointer; border-radius: var(--r); }
+.lj-msg-to:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.lj-msg-to .grow { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lj-msg-text { margin: 0 8px 8px; padding: 10px 12px; border-radius: var(--r); background: var(--surface-2); border: 1px solid var(--line-soft); font: inherit; font-size: 12.5px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); }
+.lj-proof { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.lj-proof-list { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.lj-proof-q { width: 100%; height: 30px; padding: 0 10px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 12.5px; }
+.lj-proof-list ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; max-height: 360px; overflow: auto; }
+.lj-proof-list li { display: flex; flex-direction: column; gap: 2px; padding: 7px 10px; border-radius: var(--r); background: var(--surface-2); border: 1px solid var(--line-soft); font-size: 12.5px; overflow-wrap: anywhere; }
+.lj-proof-v { color: var(--ink); }
+.lj-keys { display: flex; flex-wrap: wrap; gap: 4px; font-size: 11px; }
+.lj-keys .mono { padding: 0 5px; border-radius: 4px; background: var(--sunken); }
+.lj-copy-fallback { display: flex; flex-direction: column; gap: 4px; padding: 8px 12px; border-bottom: 1px solid var(--line-soft); }
+.lj-copy-fallback textarea { width: 100%; resize: vertical; font: inherit; font-size: 12px; line-height: 1.45; padding: 8px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+@media (max-width: 480px) {
+  .lj-pipe { grid-template-columns: 1fr; }
+  .lj-outline { flex-direction: column; }
+  .lj-doc { display: none; }
+}

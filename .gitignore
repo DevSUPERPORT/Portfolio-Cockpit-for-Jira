@@ -1,0 +1,24 @@
+# dependencies and build output
+node_modules/
+static/*/node_modules/
+static/*/dist/
+tests/e2e/node_modules/
+
+# local secrets and credentials – never commit
+.env
+.env.*
+*.pem
+*.key
+tests/e2e/accounts.json
+
+# logs, caches, local tooling
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Forge UI builds (manifest resources)
+static/cockpit/dist-field/
+static/cockpit/dist-story/

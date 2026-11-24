@@ -1,0 +1,22 @@
+/* Konfiguration › Nutzung (UsageStats.jsx) and › KI & Datenschutz › Lotse lernt (LotseLearned.jsx) – same family as AiSpend */
+.us, .ll { display: grid; gap: 12px; padding: 14px 16px; border-radius: var(--r-lg); border: 1px solid var(--line); background: var(--surface); min-width: 0; }
+.us-head { display: flex; gap: 12px; align-items: flex-start; }
+.us-head b { font-size: 14.5px; font-weight: 650; display: inline-flex; align-items: center; gap: 8px; }
+.us-head .aib-icon { color: var(--ink); }
+.us-body { display: grid; gap: 12px; min-width: 0; }
+.us-flows ul { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; font-size: 12.5px; }
+.us-flows li { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.4fr); gap: 10px; align-items: baseline; }
+.ll-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; font-size: 11.5px; font-weight: 650; background: var(--warn-soft); color: var(--ink); }
+.ll-empty { margin: 0; font-size: 12.5px; }
+.ll-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.ll-item { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; gap: 6px 12px; align-items: center; padding: 8px 10px; border-radius: var(--r); border: 1px solid var(--line-soft); background: var(--surface-2); font-size: 13px; }
+.ll-item.rejected { opacity: .7; }
+.ll-main { display: grid; gap: 2px; min-width: 0; }
+.ll-pattern { font-weight: 560; overflow-wrap: anywhere; }
+.ll-to { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
+.ll-meta { font-size: 11.5px; white-space: nowrap; }
+.ll-status { font-size: 11px; font-weight: 620; padding: 2px 8px; border-radius: 999px; background: var(--sunken); color: var(--ink-2); white-space: nowrap; }
+.ll-status.approved { background: var(--ok-soft); color: var(--ink); }
+.ll-status.pending { background: var(--warn-soft); color: var(--ink); }
+.ll-acts { display: inline-flex; gap: 4px; justify-content: flex-end; }
+@media (max-width: 640px) { .ll-item { grid-template-columns: minmax(0, 1fr) auto; } .ll-acts { grid-column: 1 / -1; justify-content: flex-start; } .us-flows li { grid-template-columns: 1fr auto; } }

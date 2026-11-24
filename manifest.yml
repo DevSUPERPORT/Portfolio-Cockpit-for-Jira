@@ -1,0 +1,140 @@
+modules:
+  jira:globalPage:
+    - key: pc-cockpit
+      resource: main
+      resolver:
+        function: resolver
+      title: SUPERPORT Portfolio Cockpit
+      icon: resource:main;icon.svg
+      layout: blank
+  jira:projectPage:
+    - key: pc-project
+      resource: main
+      resolver:
+        function: resolver
+      title: Portfolio Cockpit
+      icon: resource:main;icon.svg
+      layout: blank
+  jira:adminPage:
+    - key: pc-admin
+      resource: main
+      resolver:
+        function: resolver
+      title: Portfolio Cockpit
+      icon: resource:main;icon.svg
+      layout: blank
+  jira:issueContext:
+    - key: pc-story-check
+      resource: story
+      resolver:
+        function: resolver
+      title: Portfolio Cockpit – Planungs-Check / Planning check
+      label: Planungs-Check / Planning check
+      # "Nicht im Team" lozenge on the panel button when the assignee is not a member of the work item's team
+      dynamicProperties:
+        function: story-status
+  jira:customField:
+    - key: pc-portfolio-rank
+      name: Portfolio Rank
+      description: Unique portfolio rank, maintained only in SUPERPORT Portfolio
+        Cockpit (read-only on Jira screens, usable in JQL).
+      type: number
+      readOnly: true
+    - key: pc-tshirt-size
+      name: T-Shirt Size
+      description: Rough-planning size of a project or workstream. Editable on the
+        work item; sizes and hours are maintained in SUPERPORT Portfolio Cockpit.
+      type: string
+      readOnly: false
+      resolver:
+        function: resolver
+      edit:
+        resource: field
+        experience:
+          - issue-view
+          - issue-create
+        validation:
+          expression: value == null || value.length <= 40
+          errorMessage: Bitte eine T-Shirt-Größe wählen. / Please choose a T-shirt size.
+    - key: pc-target-quarters
+      name: Target Quarters
+      description: Target quarters (e.g. 2026-Q4, 2027-Q1). Editable on the work item
+        and in SUPERPORT Portfolio Cockpit.
+      type: string
+      readOnly: false
+      resolver:
+        function: resolver
+      edit:
+        resource: field
+        experience:
+          - issue-view
+          - issue-create
+        validation:
+          expression: value == null || value.length <= 200
+          errorMessage: Bitte Quartale wählen (z. B. 2026-Q4). / Please choose quarters (e.g. 2026-Q4).
+  jira:workflowValidator:
+    - key: pc-estimate-validator
+      name: Original Estimate required (Portfolio Cockpit)
+      description: Blocks the transition until the work item has an Original Estimate.
+        Attach it to the "In Progress" transition of service workflows.
+      expression: issue.originalEstimate != null && issue.originalEstimate > 0
+      errorMessage: Bitte zuerst eine Original Estimate erfassen. / Please enter an
+        Original Estimate first.
+  trigger:
+    - key: pc-subtask-lock
+      function: lock-enforcer
+      events:
+        - avi:jira:created:worklog
+        - avi:jira:updated:issue
+      filter:
+        ignoreSelf: true
+  scheduledTrigger:
+    - key: pc-daily-report
+      function: report-job
+      interval: day
+    - key: pc-hourly
+      function: hourly-job
+      interval: hour
+  llm:
+    - key: pc-llm
+      model:
+        - claude
+  function:
+    - key: resolver
+      handler: index.handler
+    - key: report-job
+      handler: index.reportJob
+      timeoutSeconds: 900
+    - key: lock-enforcer
+      handler: index.lockEnforcer
+    - key: story-status
+      handler: index.storyStatus
+    - key: hourly-job
+      handler: index.hourlyJob
+      timeoutSeconds: 600
+resources:
+  - key: main
+    path: static/cockpit/dist
+  - key: field
+    path: static/cockpit/dist-field
+  - key: story
+    path: static/cockpit/dist-story
+app:
+  runtime:
+    name: nodejs22.x
+  id: ari:cloud:ecosystem::app/083d5c93-0586-481d-9c13-6e085bdfad84
+permissions:
+  scopes:
+    - read:jira-work
+    - write:jira-work
+    - read:jira-user
+    - storage:app
+    - send:notification:jira
+    - read:space:confluence
+    - write:page:confluence
+    # Atlassian Teams: team members via the Teamwork Graph (read as the signed-in user; granted by the org admin)
+    - read:graph:team:atlassian
+    - read:graph:user:atlassian
+  content:
+    styles:
+      - unsafe-inline
