@@ -1,25 +1,33 @@
 # Marketplace listing: SUPERPORT Portfolio Cockpit for Jira
 
-Everything to paste into the Atlassian partner portal. Images are in this folder (see [README](README.md)).
-The listing is created only when SUPERPORT says so. Search for **⟦CONFIRM⟧** and **⟦OPEN⟧** first.
+Everything for the Atlassian partner portal. Images are in this folder (see [README](README.md)).
+
+**Status (25 Nov 2026): created as a PRIVATE app – not public, not submitted.** Marketplace app 3718518892
+(https://marketplace.atlassian.com/apps/3718518892, visible to SUPERPORT contacts only). Filled in: details (tagline, summary,
+categories Project management + Data and analytics, keywords Resource management · Reporting · Time tracking ·
+Roadmapping, logo, banner, support and status links, publishing: "Let me control when app is published"), pricing
+(saved as below), version 4.2.0 (Commercial licence, summary, more details, release notes, hero + 3 highlights,
+8 gallery images, documentation = repository README, own EULA), Privacy & Security (technical answers and security contact
+saved as a **draft**). Left for SUPERPORT: the GDPR / CCPA roles and data residency on the Privacy & Security tab, then
+"Submit and publish" there; the Preview-features question to Atlassian; making the app public (= submission for approval).
 
 ## Basics
 
 | Field | Value |
 |---|---|
-| App name | SUPERPORT Portfolio Cockpit for Jira (37 characters; "… for Jira" form, no "app"/"plugin"/"add-on") |
+| App name | Portfolio Cockpit for Jira (chosen by SUPERPORT in the portal; validated by Atlassian) |
 | App ID | `ari:cloud:ecosystem::app/083d5c93-0586-481d-9c13-6e085bdfad84` |
 | Hosting | Cloud, Forge, **Runs on Atlassian** (no egress; data in Jira and Forge storage; optional AI through Forge LLM, run by Atlassian) |
-| Version to list | Production **4.0.0** (tag `portfolio-cockpit-20261124-195916`) – licensing and personal data reporting |
+| Version to list | Production **4.1.0** (licensing, personal data reporting, E2E fixes); the portal shows it as 4.2.0 |
 | Product | Jira (Jira Software, Jira Service Management, Jira Work Management); Confluence optional (report publishing) |
 | Payment model | Paid via Atlassian (manifest `app.licensing.enabled: true`; SUPERPORT's own site exempt via `LICENSE_EXEMPT_SITES` until it subscribes) |
-| Categories | Project management; Reports; Time tracking |
+| Categories | Project management; Data and analytics (the portal's current list) |
 | Keywords | portfolio management, capacity planning, resource planning, waterline, ranking, roadmap, weekly planning, plan vs actual, time tracking, worklogs, C-level report, PMO |
 | Vendor | SUPERPORT P.C. (IKE), Sorou 22, 151 25 Marousi (Athens), Greece · https://www.superport.digital |
 | Support | mail@superport.digital · https://www.superport.digital/en/contact · working days 9:00–18:00 Athens time (DE/EN/GR), first response within 1 business day |
 | Security contact | dev@superport.digital (see [SECURITY.md](../../SECURITY.md)) ⟦CONFIRM⟧ registered on ecosystem.atlassian.net |
 | Status page | https://superapps.statuspage.io/ |
-| Documentation URL | https://github.com/DevSUPERPORT/Portfolio-Cockpit-for-Jira/blob/main/docs/TESTER-GUIDE.md ⟦CONFIRM⟧ repository public, or a page on superport.digital |
+| Documentation URL | https://github.com/DevSUPERPORT/Portfolio-Cockpit-for-Jira#readme (public repository) |
 | Privacy policy URL | https://www.superport.digital/apps/privacy (app notice: [PRIVACY.md](../../PRIVACY.md)) |
 | EULA URL | https://www.superport.digital/apps/eula |
 
