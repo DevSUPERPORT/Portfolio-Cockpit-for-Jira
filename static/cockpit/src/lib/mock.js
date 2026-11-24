@@ -333,6 +333,8 @@ export async function invoke(name, p) {
   await wait(name === 'dataset' || p?.withDataset ? 1200 : 260); // roughly what a real dataset load costs
   if (bigReady) await bigReady;
   if (name === 'availability') return ok({ mode: maint, statusUrl: 'https://superapps.statuspage.io' });
+  // ?license=inactive: a site without an active Marketplace licence (as the server: every call refused, the admin page keeps the configuration)
+  if (q.get('license') === 'inactive' && !(q.get('module') === 'pc-admin' && ['bootstrap', 'config.get', 'config.save', 'config.history', 'config.version', 'config.restore', 'config.detect'].includes(name))) return fail('LICENSE_INACTIVE', 'LICENSE_INACTIVE');
   if (maint === 'on') return fail('UNAVAILABLE', 'SUPERPORT Portfolio Cockpit is temporarily unavailable.');
   if (maint === 'readonly' && !MOCK_READS.has(name)) return fail('UNAVAILABLE', 'Changes are paused for maintenance to keep your data safe.');
   if (dispatchMock[name]) return dispatchMock[name](p);
