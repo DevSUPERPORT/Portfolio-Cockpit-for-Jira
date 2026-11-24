@@ -31,8 +31,8 @@ test('the AI is Forge LLM only – the one llm module, model Claude, no other AI
 
 test('"what the app may do in Jira" lists exactly the scopes of the manifest, in plain words', () => {
   const scopes = [...manifest.slice(manifest.indexOf('scopes:'), manifest.indexOf('content:')).matchAll(/- ([a-z:-]+)/g)].map((m) => m[1]).sort();
-  assert.deepEqual(scopes, ['read:graph:team:atlassian', 'read:graph:user:atlassian', 'read:jira-user', 'read:jira-work', 'read:space:confluence', 'send:notification:jira', 'storage:app', 'write:jira-work', 'write:page:confluence']);
-  for (const words of ['Vorgänge lesen', 'Personen lesen', 'App-Speicher', 'Jira-Benachrichtigungen', 'Confluence: Bereiche lesen und Report-Seiten anlegen', 'Atlassian Teams: Teams und ihre Mitglieder lesen']) assert.ok(trust.includes(words), words);
+  assert.deepEqual(scopes, ['read:graph:team:atlassian', 'read:graph:user:atlassian', 'read:jira-user', 'read:jira-work', 'read:space:confluence', 'report:personal-data', 'send:notification:jira', 'storage:app', 'write:jira-work', 'write:page:confluence']);
+  for (const words of ['Vorgänge lesen', 'Personen lesen', 'App-Speicher', 'Jira-Benachrichtigungen', 'Confluence: Bereiche lesen und Report-Seiten anlegen', 'Atlassian Teams: Teams und ihre Mitglieder lesen', 'Datenschutz-Meldung an Atlassian']) assert.ok(trust.includes(words), words);
 });
 
 test('limits, logging and storage promises match the server', () => {

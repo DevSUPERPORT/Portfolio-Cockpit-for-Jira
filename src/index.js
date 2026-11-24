@@ -15,6 +15,8 @@ import { allocationOf } from '../shared/allocation.js';
 import { runSnapshotJob, planActual, fetchWorklogs } from './lib/snapshot.js';
 import { freshAtlassianTeams, ATL_TEAMS_KEY, quickTeamStatus } from './lib/atlTeams.js';
 import { logError, logWarn, safeError } from './lib/safeLog.js';
+import { licenseBlocks } from './lib/license.js';
+import { reportPersonalData } from './lib/privacy.js';
 import { runNotices, runBookingNotices, remindPeople, REMIND_KEY } from './lib/notices.js';
 import { bookingOverview } from '../shared/booking.js';
 import { reportExtras, reportForViewer } from '../shared/reportKpis.js';
@@ -72,7 +74,7 @@ function def(name, fn) {
       const ctx = { accountId: req.context?.accountId, moduleKey: req.context?.moduleKey, extension: req.context?.extension };
       if (!ctx.accountId) throw new AccessError('ANONYMOUS');
       // Marketplace licensing: an inactive licence blocks the cockpit; admins keep access to the configuration page.
-      if (req.context?.license && req.context.license.isActive === false && !(ctx.moduleKey === 'pc-admin' && LICENSE_FREE.has(name))) {
+      if (licenseBlocks(req.context) && !(ctx.moduleKey === 'pc-admin' && LICENSE_FREE.has(name))) {
         throw Object.assign(new Error('LICENSE_INACTIVE'), { code: 'LICENSE_INACTIVE' });
       }
       const cfg = await loadConfig();
@@ -1614,3 +1616,5 @@ export async function storyStatus(payload, context) {
 export const reportJob = guarded('[reportJob]', reportJobRun);
 export const hourlyJob = guarded('[hourlyJob]', hourlyJobRun);
 export const lockEnforcer = guarded('[lockEnforcer]', lockEnforcerRun);
+// Atlassian's personal data reporting (lib/privacy.js): daily, reports every 6 days, on every site.
+export const privacyJob = guarded('[privacyJob]', () => reportPersonalData());

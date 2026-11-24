@@ -18,21 +18,21 @@ images are in [marketplace/](marketplace/README.md).
 | Accessibility | axe-core WCAG 2.2 AA, 0 violations in every view, light and dark |
 | Scale | 15 projects / 1,215 work items: data 3.6 s, every view ≤ 4 s ([DEMO-DATA.md](DEMO-DATA.md)) |
 | Listing kit | Texts, logo, banner, hero, 11 screenshots ([marketplace/](marketplace/README.md)) |
-| Licensing | ⟦OPEN⟧ – see 1 below |
-| Personal data reporting | ⟦OPEN⟧ – see 2 below |
-| Preview features | ⟦OPEN⟧ – see 3 below |
+| Licensing | Done – paid via Atlassian; SUPERPORT's own site exempt during the review |
+| Personal data reporting | Done – every 6 days, closed accounts removed |
+| Preview features | ⟦OPEN⟧ – question to Atlassian (see 3 below) |
 
 ## Open before submitting
 
-1. **Marketplace licensing** (`app.licensing.enabled: true`, plus `filter.appIsLicensed: true` on the triggers).
-   The resolvers already refuse with `LICENSE_INACTIVE` when a licence is present and inactive (`src/index.js`), and
-   work as before when there is none (development, staging). **Effect on superportdev:** after licensing is enabled,
-   Atlassian treats existing production installations as unlicensed until the site subscribes through the Marketplace,
-   and the production environment can no longer be installed from the console until the listing is approved. Testing
-   then moves to development/staging (`forge install --license active|inactive|trial`). Decide when to switch.
-2. **Personal data reporting.** The app stores Atlassian account IDs. Add the `report:personal-data` scope and a weekly
-   job that reports them and removes closed accounts (as in Workflow Analyzer `src/lib/privacy.js`). A new scope is a
-   major version: every site's admin must approve the upgrade.
+1. **Marketplace licensing – done (24 Nov 2026).** `app.licensing.enabled: true`; the resolvers refuse with
+   `LICENSE_INACTIVE` when Forge reports an inactive licence (`license.active` or the older `isActive`,
+   `src/lib/license.js`); no license object (development, staging) keeps working. SUPERPORT's own site is exempt through
+   the production variable `LICENSE_EXEMPT_SITES` until it holds a Marketplace subscription – then remove the variable.
+   The triggers have no `appIsLicensed` filter yet, so they keep running on the exempt site; add it when the exemption
+   ends.
+2. **Personal data reporting – done (24 Nov 2026).** `report:personal-data`; the daily `pc-privacy` trigger scans the
+   app storage for account IDs, reports them every 6 days and removes closed accounts (`src/lib/privacy.js`,
+   `tests/licensePrivacy.test.js`). The new scope made this a major version: the site admin approves the upgrade.
 3. **Preview features.** `jira:workflowValidator` and the Teamwork Graph scopes (`read:graph:team:atlassian`,
    `read:graph:user:atlassian`) are in Forge **Preview**. Atlassian's pages do not say whether Preview features may be
    listed; ask Atlassian (ECOHELP) before submitting. Fallback if not: ship without them (the cockpit's own team

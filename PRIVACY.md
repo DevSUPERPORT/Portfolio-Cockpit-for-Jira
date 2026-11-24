@@ -43,9 +43,9 @@ figures before it is shown.
 
 ## 4. People who leave
 
-⟦OPEN⟧ Before the Marketplace listing, the app will report the account IDs it stores to Atlassian's personal data
-reporting service every week and, for every account Atlassian reports as closed, remove that account ID from its
-records. Until then, a Jira administrator can remove a person's capacity entries in Configuration › Teams.
+Every week the app reports the account IDs it stores to Atlassian's personal data reporting service. For every
+account Atlassian reports as closed, the app deletes that person's own records (preferences, drafts, usage) and removes
+the account ID from all other records – capacity entries are deleted, other mentions become "closed-account".
 
 ## 5. Your control
 

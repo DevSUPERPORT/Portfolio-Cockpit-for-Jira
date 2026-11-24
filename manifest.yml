@@ -95,6 +95,10 @@ modules:
     - key: pc-hourly
       function: hourly-job
       interval: hour
+    # Atlassian personal data reporting (src/lib/privacy.js): daily check, report every 6 days, on every site
+    - key: pc-privacy
+      function: privacy-job
+      interval: day
   llm:
     - key: pc-llm
       model:
@@ -112,6 +116,9 @@ modules:
     - key: hourly-job
       handler: index.hourlyJob
       timeoutSeconds: 600
+    - key: privacy-job
+      handler: index.privacyJob
+      timeoutSeconds: 900
 resources:
   - key: main
     path: static/cockpit/dist
@@ -122,6 +129,9 @@ resources:
 app:
   runtime:
     name: nodejs22.x
+  # Paid via Atlassian: context.license reaches the resolvers; an inactive licence is refused (src/lib/license.js)
+  licensing:
+    enabled: true
   id: ari:cloud:ecosystem::app/083d5c93-0586-481d-9c13-6e085bdfad84
 permissions:
   scopes:
@@ -135,6 +145,8 @@ permissions:
     # Atlassian Teams: team members via the Teamwork Graph (read as the signed-in user; granted by the org admin)
     - read:graph:team:atlassian
     - read:graph:user:atlassian
+    # Atlassian personal data reporting API (src/lib/privacy.js)
+    - report:personal-data
   content:
     styles:
       - unsafe-inline

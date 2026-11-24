@@ -10,9 +10,9 @@ The listing is created only when SUPERPORT says so. Search for **⟦CONFIRM⟧**
 | App name | SUPERPORT Portfolio Cockpit for Jira (37 characters; "… for Jira" form, no "app"/"plugin"/"add-on") |
 | App ID | `ari:cloud:ecosystem::app/083d5c93-0586-481d-9c13-6e085bdfad84` |
 | Hosting | Cloud, Forge, **Runs on Atlassian** (no egress; data in Jira and Forge storage; optional AI through Forge LLM, run by Atlassian) |
-| Version to list | Production **3.35.0** (tag `portfolio-cockpit-20261124-131624`) – or the version that adds the ⟦OPEN⟧ items below |
+| Version to list | The production version with licensing and personal data reporting (major version of 24 Nov 2026) |
 | Product | Jira (Jira Software, Jira Service Management, Jira Work Management); Confluence optional (report publishing) |
-| Payment model | Paid via Atlassian ⟦OPEN⟧ manifest `app.licensing.enabled: true` still to be switched on |
+| Payment model | Paid via Atlassian (manifest `app.licensing.enabled: true`; SUPERPORT's own site exempt via `LICENSE_EXEMPT_SITES` until it subscribes) |
 | Categories | Project management; Reports; Time tracking |
 | Keywords | portfolio management, capacity planning, resource planning, waterline, ranking, roadmap, weekly planning, plan vs actual, time tracking, worklogs, C-level report, PMO |
 | Vendor | SUPERPORT P.C. (IKE), Sorou 22, 151 25 Marousi (Athens), Greece · https://www.superport.digital |
@@ -74,25 +74,41 @@ test-site data appears in them.
 > its arithmetic on hover, Lotse answers questions from your data with sources, and every change has its own undo.
 > Optional AI (off by default) runs on Atlassian's Forge LLM inside your cloud. German and English, light and dark.
 
-## Pricing ⟦CONFIRM⟧ (proposal, not decided)
+## Pricing (decided by SUPERPORT on 24 Nov 2026)
 
-Set in the partner portal under *Pricing*. Atlassian bills annual subscriptions at 10× the monthly price. Proposal in
-line with the other SUPERPORT apps (Workflow Analyzer: $1.00 for 11–100 users), one step above because the cockpit is
-a full planning product and includes AI that SUPERPORT pays for:
+Set in the partner portal under *Pricing* (Cloud). Atlassian bills annual subscriptions at 10× the monthly price.
+$2.00 per user at 11–100 users – twice the Workflow Analyzer's tiers, because the cockpit is a full planning product and
+includes AI that SUPERPORT pays for:
 
-| Users on the site | Price per user per month |
-|---|---|
-| Up to 10 | **Free** |
-| 11–100 | $1.50 |
-| 101–250 | $1.10 |
-| 251–1,000 | $0.60 |
-| 1,001–2,500 | $0.25 |
-| 2,501–5,000 | $0.15 |
-| 5,001–10,000 | $0.08 |
-| 10,001 and more | $0.04 |
+| Users on the site | Price per user per month | Monthly total at the top of the tier |
+|---|---|---|
+| Up to 10 | **Free** | $0 |
+| 11–100 | $2.00 | $200 |
+| 101–250 | $1.40 | $410 |
+| 251–1,000 | $0.80 | $1,010 |
+| 1,001–2,500 | $0.30 | $1,460 |
+| 2,501–5,000 | $0.20 | $1,960 |
+| 5,001–7,500 | $0.12 | $2,260 |
+| 7,501–10,000 | $0.10 | $2,510 |
+| 10,001–15,000 | $0.08 | $2,910 |
+| 15,001–25,000 | $0.06 | $3,510 |
+| 25,001–35,000 | $0.04 | $3,910 |
+| 35,001 and more | $0.02 | |
 
-Every site can use up to 20 € of AI per month, paid by SUPERPORT (set per site in App Status). Free trial: Atlassian's
-standard 30 days.
+Every site can use up to 20 € of AI per month, paid by SUPERPORT (App Status can change it per site). Free trial:
+Atlassian's standard 30 days.
+
+## Question to Atlassian (ECOHELP, sent by SUPERPORT)
+
+> **Subject:** Paid Forge app using Preview features – may it be listed?
+>
+> Hello, we are preparing the Marketplace listing of our Forge app *SUPERPORT Portfolio Cockpit for Jira*
+> (app ID 083d5c93-0586-481d-9c13-6e085bdfad84, paid via Atlassian, Runs on Atlassian). It uses two features that the
+> developer documentation marks as **Preview**: the Teamwork Graph scopes `read:graph:team:atlassian` and
+> `read:graph:user:atlassian` (via `requestTeamworkGraph`, to read Atlassian Teams and their members as the signed-in
+> user) and the `jira:workflowValidator` module. The release-phase page says Preview features are supported for
+> production apps but does not mention Marketplace listings. Can a paid app that uses these Preview features be
+> approved for the Marketplace, or should we remove them for the listed version? Thank you!
 
 ## Why the app needs each permission (scope justification)
 
@@ -113,10 +129,9 @@ Also declared: the Forge LLM module (`llm`, model Claude) – AI features, off u
 
 ## Partner portal checklist
 
-1. ⟦OPEN⟧ Switch on Marketplace licensing (`app.licensing.enabled: true`) and add `filter.appIsLicensed` to the
-   triggers – see [READINESS.md](../READINESS.md) for the effect on the existing superportdev installation.
-2. ⟦OPEN⟧ Personal data reporting (`report:personal-data`, weekly) – see [READINESS.md](../READINESS.md).
-3. ⟦OPEN⟧ Ask Atlassian (ECOHELP) whether Preview features may be listed: Teamwork Graph scopes, `jira:workflowValidator`.
+1. Done: Marketplace licensing on (`src/lib/license.js`), SUPERPORT's own site exempt during the review.
+2. Done: personal data reporting (`report:personal-data`, `src/lib/privacy.js`, every 6 days).
+3. ⟦OPEN⟧ Send the question above to Atlassian (ECOHELP); submit in parallel.
 4. In the developer console: *Distribution* → sharing on (not "within organization"), personal data declaration.
 5. Partner portal → *Create new app* → **Forge app** → production environment → paid via Atlassian.
 6. Paste the texts above; upload logo, banner, hero, highlights and gallery screenshots.

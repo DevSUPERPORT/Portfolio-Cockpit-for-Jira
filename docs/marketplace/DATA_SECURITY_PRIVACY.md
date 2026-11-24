@@ -23,7 +23,7 @@ code or document that proves it. Attestations are ticked by SUPERPORT.
 |---|---|
 | Role under GDPR | SUPERPORT is not a processor of customer data: it has no access to the site or the app storage. Atlassian processes the data as the customer's processor. ⟦CONFIRM⟧ legal wording |
 | DPA | Not required for data SUPERPORT never receives; available on request (mail@superport.digital). ⟦CONFIRM⟧ |
-| Personal data reporting API | ⟦OPEN⟧ To be added before submission: weekly report of stored account IDs, removal for closed accounts. |
+| Personal data reporting API | Yes: every 6 days all stored account IDs are reported; closed accounts are removed from all app data (`src/lib/privacy.js`). |
 | EEA transfers | None by SUPERPORT. |
 
 ## Security
