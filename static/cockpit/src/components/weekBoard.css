@@ -413,7 +413,10 @@ html.wb-dragging, html.wb-dragging * { cursor: grabbing !important; user-select:
 /* a week with planned hours but no available time (absence/holidays): a readable conflict, not "∞" (tester 2026-11-17) */
 .wb-cell.no-time { background: color-mix(in srgb, var(--bad-soft) 55%, var(--surface)); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--bad) 45%, transparent); }
 .wb-cell.no-time .wb-card.task { border-color: color-mix(in srgb, var(--bad) 55%, var(--line)); }
-.wb-head.t-notime b { white-space: normal; text-align: right; line-height: 1.2; }
+/* a week without time (absent, holidays): planned / available, the reason on its own line, then "Why?" – never clipped
+   (boss 2026-11-24: "13 / 0 h verfügbar · abwesend War…" ran out of the cell) */
+.wb-head.t-notime { flex-wrap: wrap; align-items: center; row-gap: 2px; white-space: normal; }
+.wb-head.t-notime b { flex: 1 0 100%; white-space: normal; text-align: left; line-height: 1.25; }
 
 /* suggestions for red weeks (shared/planSuggest.js): a calm accent box like the conflicts box */
 .wb-sug { border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line)); background: color-mix(in srgb, var(--accent-soft) 45%, var(--surface)); border-radius: 12px; padding: 10px 14px; margin-bottom: 10px; }

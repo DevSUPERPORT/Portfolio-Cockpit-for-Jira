@@ -113,7 +113,10 @@ const finishText = (f) => (f.overflow
   : f.early > 0 ? tr(`fertig in ${fmt.week(f.week)} – danach hat die Person bis zum Due keinen Platz`, `done in ${fmt.week(f.week)} – after that the person has no room until the due date`)
     : tr(`fertig in ${fmt.week(f.week)} – zum Due`, `done in ${fmt.week(f.week)} – by the due date`));
 // Project colours as in Capacity › Weeks (same order: portfolio rank), the first one follows the theme.
-const PAL = ['var(--ink)', '#E34B04', '#8F8B82', '#C98A06', '#3D5BA6', '#2F7D57', '#B05B8C', '#5E8C9A', '#9A3402', '#6B6860'];
+// Project colours (the stripe on a task card). Chosen so that none looks like a colour of the person bar – blue = absent,
+// violet = daily business, orange = support, teal = projects, red = over 100 % (boss 2026-11-24: "what does the colour
+// stand for?").
+export const PAL = ['var(--ink)', '#8B5E3C', '#8F8B82', '#C98A06', '#7A8B2E', '#B05B8C', '#5E8C9A', '#6E3A6B', '#D07A9B', '#6B6860'];
 export const projectColor = (i) => (i >= 0 ? PAL[i % PAL.length] : 'var(--line-strong)');
 const dm = (iso) => (iso ? fmt.date(iso, { day: '2-digit', month: '2-digit' }) : '–');
 const hrs = (v) => fmt.h(v, v > 0 && v < 9.95 && Math.abs(v - Math.round(v)) > 0.05 ? 1 : 0);
@@ -880,6 +883,7 @@ function TaskCard({ k, week, board, canDrag, drag, tip, openMenu, shift, first }
         title: `${k.key} · ${k.summary || ''}`,
         sub: `${k.project}${k.pending ? ` · ${tr('geändert, noch nicht in Jira', 'changed, not in Jira yet')}` : ''}`,
         inputs: [
+          [tr('Projekt (Farbstreifen links)', 'Project (colour stripe on the left)'), k.project || '–'],
           ['Assignee', who], ['Start', dm(k.start)], ['Due', dm(k.due)], ['Original Estimate', fmt.h(k.oe, 1)],
           [tr('In dieser Woche', 'This week'), `${fmt.h(k.hours, 1)}${k.len > 1 ? ` · ${k.idx}/${k.len}` : ''}`],
           ...(k.finish && (k.finish.overflow || k.finish.early > 0) ? [[tr('Nach Kapazität', 'By capacity'), finishText(k.finish)]] : []),
@@ -1361,6 +1365,7 @@ function BoardLegend({ kind, canDrag, projects }) {
               <ul className="wb-lg-cards">
                 <li><span className="wb-lg-card sup"><b>Support</b><em>2,9 h</em></span>{tr('Support-Reserve – kommt vor allen Projekten, fest', 'Support reserve – comes before every project, fixed')}</li>
                 <li><span className="wb-lg-card task"><b>ABC-1</b><em>6,5 h · 3/7</em></span>{tr('Aufgabe: Stunden in dieser Woche · Woche 3 von 7', 'Task: hours in this week · week 3 of 7')}</li>
+                <li data-legend="stripe"><span className="wb-lg-card task" style={{ '--pc': PAL[4] }}><b>ABC-2</b><em>4 h</em></span>{tr('Farbstreifen links = das Projekt der Aufgabe – jede Farbe ein Projekt (Liste unten, Name beim Überfahren). Mit den Farben des Balkens links hat er nichts zu tun.', 'Colour stripe on the left = the task\'s project – one colour per project (list below, name on hover). It has nothing to do with the colours of the bar on the left.')}</li>
                 <li><span className="wb-lg-card other"><b>{tr('Andere Teams', 'Other teams')}</b><em>14 h</em></span>{tr('Arbeit derselben Person in anderen Teams', 'the same person\'s work in other teams')}</li>
                 <li><span className="wb-lg-card task conflict"><b>ABC-7</b><em>!</em></span>{tr('Konflikt: startet, bevor die Voraussetzung fertig ist', 'Conflict: starts before its prerequisite is done')}</li>
                 {canDrag && <li><span className="wb-lg-card task pending"><b>ABC-9</b><em>{tr('neu', 'new')}</em></span>{tr('verschoben – noch nicht in Jira', 'moved – not in Jira yet')}</li>}
