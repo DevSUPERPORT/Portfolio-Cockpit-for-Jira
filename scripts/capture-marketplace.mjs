@@ -81,6 +81,7 @@ window.__type = (selector, value) => {
 };
 window.__scrollTo = (el, off = 120) => { const m = document.querySelector('main.main') || document.scrollingElement; if (!el) throw new Error('no target'); m.scrollTop += el.getBoundingClientRect().top - off; return true; };
 window.__h2 = (t) => [...document.querySelectorAll('h2')].find((h) => h.textContent.trim().startsWith(t));
+window.__skipTour = () => { const b = [...document.querySelectorAll('[role=dialog] button')].find((x) => x.textContent.trim() === 'Skip'); if (b) b.click(); return !!b; };
 window.__top = () => { window.scrollTo(0, 0); document.querySelectorAll('*').forEach((e) => { if (e.scrollTop) e.scrollTop = 0; }); return true; };
 `;
 
@@ -93,7 +94,7 @@ async function evaluate(send, expr) {
 async function open(send, { query = '', width = 1840, height = 900 }) {
   await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
   await send('Page.navigate', { url: `${BASE}${query ? `?${query}` : ''}` });
-  await sleep(5000);
+  await sleep(8000);
   await evaluate(send, HELPERS + 'true');
   // the first-run tour opens a moment after load (and jumps to Portfolio): wait for it, skip it; hide the visit digest
   await evaluate(send, `(async () => {
@@ -188,11 +189,13 @@ async function run() {
       if (only.length && !only.includes(name)) continue;
       await open(send, { query: s.query || '' });
       for (const step of s.steps || []) {
+        await evaluate(send, '__skipTour()').catch(() => {}); await sleep(300);
         try { await evaluate(send, step); } catch (e) { console.warn(`[${name}] step failed: ${e.message}`); }
         await sleep(1200);
       }
       await sleep(s.wait || 1500);
       if (!s.keepScroll) await evaluate(send, `__top()`).catch(() => {});
+      if (await evaluate(send, '__skipTour()').catch(() => false)) console.warn(`[${name}] tour was open – redo this shot`);
       await sleep(300);
       await shot(send, path.join(SHOTS_DIR, `${name}.png`));
     }
