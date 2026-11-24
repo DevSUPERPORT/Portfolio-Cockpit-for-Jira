@@ -3,6 +3,13 @@
 Production releases of SUPERPORT Portfolio Cockpit for Jira. The full engineering log, with test results per release,
 is in [docs/DEVELOPMENT-LOG.md](docs/DEVELOPMENT-LOG.md).
 
+## 4.0.0 — 24 Nov 2026
+- Paid via Atlassian: Marketplace licensing; an inactive licence shows a licence notice (Jira admins keep the
+  configuration).
+- Atlassian personal data reporting: stored account IDs are reported every 6 days; closed accounts are removed.
+- Weekly board: the coloured stripe on a task card is its project – explained in the legend, the hover card and the
+  tour, in colours that no longer look like the person bar; the head of an absent week is no longer cut off.
+
 ## 3.35.0 — 24 Nov 2026
 - AI budget: 20 € per site and month by default from 1 December 2026 (November keeps 50 €). A limit set by SUPERPORT
   in App Status always wins and also applies inside the app.

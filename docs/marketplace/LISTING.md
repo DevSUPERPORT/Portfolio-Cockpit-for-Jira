@@ -10,7 +10,7 @@ The listing is created only when SUPERPORT says so. Search for **⟦CONFIRM⟧**
 | App name | SUPERPORT Portfolio Cockpit for Jira (37 characters; "… for Jira" form, no "app"/"plugin"/"add-on") |
 | App ID | `ari:cloud:ecosystem::app/083d5c93-0586-481d-9c13-6e085bdfad84` |
 | Hosting | Cloud, Forge, **Runs on Atlassian** (no egress; data in Jira and Forge storage; optional AI through Forge LLM, run by Atlassian) |
-| Version to list | The production version with licensing and personal data reporting (major version of 24 Nov 2026) |
+| Version to list | Production **4.0.0** (tag `portfolio-cockpit-20261124-195916`) – licensing and personal data reporting |
 | Product | Jira (Jira Software, Jira Service Management, Jira Work Management); Confluence optional (report publishing) |
 | Payment model | Paid via Atlassian (manifest `app.licensing.enabled: true`; SUPERPORT's own site exempt via `LICENSE_EXEMPT_SITES` until it subscribes) |
 | Categories | Project management; Reports; Time tracking |

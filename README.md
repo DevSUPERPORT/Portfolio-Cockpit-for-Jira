@@ -15,8 +15,8 @@ Every figure explains itself, and every change can be undone.
 ![Runs on Atlassian](https://img.shields.io/badge/Runs%20on-Atlassian-0B8A5F)
 ![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![Node 22](https://img.shields.io/badge/Node-22-339933?logo=node.js&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-803%20passing-2E7D32)
-![Version](https://img.shields.io/badge/version-3.35.0-D04403)
+![Tests](https://img.shields.io/badge/tests-814%20passing-2E7D32)
+![Version](https://img.shields.io/badge/version-4.0.0-D04403)
 ![Languages](https://img.shields.io/badge/UI-DE%20%7C%20EN-D04403)
 ![No Rovo](https://img.shields.io/badge/Rovo-not%20used-5E6C84)
 
@@ -193,7 +193,7 @@ src/
 shared/            The engine: KPIs, waterline, week plan, load fit, plan vs. actual, SLAs, insights,
                    Lotse (understand → plan → act → narrate, every number sourced)
 static/cockpit/    Custom UI (React 19, Vite, framer-motion, jsPDF, ExcelJS); mock back end for local work
-tests/             803 Node tests: engine, golden dataset, property tests, security, Lotse, AI budget, perf
+tests/             814 Node tests: engine, golden dataset, property tests, security, Lotse, AI budget, perf
 tools/             Demo-data generator (seeded), big-dataset builder
 docs/              Readiness, threat model, decisions, tester guide, Lotse design, Marketplace kit
 scripts/           capture-marketplace.mjs – screenshots, hero and banner from the demo data
@@ -247,7 +247,7 @@ Then open **Apps › SUPERPORT Portfolio Cockpit** in Jira. A Jira admin runs th
 
 | Check | Result |
 |---|---|
-| Unit, golden and property tests | 803 passing (`npm test`) |
+| Unit, golden and property tests | 814 passing (`npm test`) |
 | Golden dataset | 22/22 metrics match independent spreadsheet formulas (`tests/golden/`) |
 | Scale | 15 projects · 1,215 work items: data in 3.6 s, every view ready in ≤ 4 s ([docs/DEMO-DATA.md](docs/DEMO-DATA.md)) |
 | Live end-to-end | 35 self-test suites on a Jira site with 1,400 demo work items, then verified on production |
