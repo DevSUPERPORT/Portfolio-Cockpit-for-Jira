@@ -11,7 +11,7 @@ code or document that proves it. Attestations are ticked by SUPERPORT.
 | Where is data stored? | Forge app storage (KVS) of the customer's site, under Atlassian's data residency; plus the app's own Jira custom fields. |
 | Does the app process End-User Data? | Yes, inside Atlassian: work items, estimates, worklogs, dates, teams – read as the signed-in user to compute the portfolio and plans. |
 | Which personal data is stored? | Atlassian account IDs (audit log, undo, health updates, capacity per person, plan snapshots, preferences). No names or e-mail addresses ([PRIVACY.md](../../PRIVACY.md)). |
-| Data residency | Inherits Atlassian's Forge data residency (Runs on Atlassian). |
+| Data residency | **Yes** (portal answer, 26 Nov 2026): Forge hosted storage follows the Jira site's location and moves with it. No in-scope data stored outside Atlassian. In scope: app configuration and its history; plans and snapshots; preferences and audit entries with account IDs; AI answer cache and usage counters; changes applied to Jira work items (stored in Jira). Out of scope: Forge app logs (scrubbed); optional AI summaries processed by Forge LLM, not stored by the app. |
 | Retention | Plan snapshots 12/24/36 months (configurable); AI answer cache 12 hours; everything else until changed or the app is uninstalled; Forge deletes app storage after uninstall per Atlassian's retention. |
 | Logging | Logs contain a resolver name and HTTP status only – no personal data, no work item content, no AI prompts (`src/lib/safeLog.js`). |
 | Third parties / sub-processors | Atlassian only (hosting, storage, Forge LLM). |
@@ -21,8 +21,8 @@ code or document that proves it. Attestations are ticked by SUPERPORT.
 
 | Question | Answer |
 |---|---|
-| Role under GDPR | SUPERPORT is not a processor of customer data: it has no access to the site or the app storage. Atlassian processes the data as the customer's processor. ⟦CONFIRM⟧ legal wording |
-| DPA | Not required for data SUPERPORT never receives; available on request (mail@superport.digital). ⟦CONFIRM⟧ |
+| Role under GDPR / CCPA | Portal answer (decided by SUPERPORT, 26 Nov 2026): GDPR controller **No**, processor **Yes**; CCPA business **No**, service provider **Yes** – for Atlassian account IDs and display names, Jira work item data, and team membership, capacity and absences. SUPERPORT itself has no access to the site or the app storage. |
+| DPA | Left unanswered in the portal until SUPERPORT decides (no DPA document yet). ⟦CONFIRM⟧ |
 | Personal data reporting API | Yes: every 6 days all stored account IDs are reported; closed accounts are removed from all app data (`src/lib/privacy.js`). |
 | EEA transfers | None by SUPERPORT. |
 
