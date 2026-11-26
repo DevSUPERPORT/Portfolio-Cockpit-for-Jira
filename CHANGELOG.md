@@ -3,6 +3,11 @@
 Production releases of SUPERPORT Portfolio Cockpit for Jira. The full engineering log, with test results per release,
 is in [docs/DEVELOPMENT-LOG.md](docs/DEVELOPMENT-LOG.md).
 
+## 4.3.0 — 25 Nov 2026
+- Lotse: the portfolio briefing backs every number with its source – also the rank of the first project that
+  cannot be fully staffed ("from rank 1"), found in the end-to-end test of all AI features.
+- KPI tiles: the breakdown opens above a tile when there is no room below it; plan vs actual tags with better contrast.
+
 ## 4.0.0 — 24 Nov 2026
 - Paid via Atlassian: Marketplace licensing; an inactive licence shows a licence notice (Jira admins keep the
   configuration).

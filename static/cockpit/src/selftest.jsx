@@ -3080,6 +3080,27 @@ const SUITES = {
     const boot = await call('bootstrap');
     t('bootstrap (the browser config) reports AI on', boot.config?.ai?.enabled === true);
   },
+  // AI off (user request 2026-11-25, own development site only): switches only ai.enabled off. Features, data minimisation,
+  // budget and every other setting stay as they are. Idempotent: saves only when AI is on.
+  async aiDisable(t) {
+    const cfg = (await call('config.get')).config;
+    const ai0 = cfg.ai || {};
+    t('before (ai block, for an exact revert)', true, JSON.stringify(ai0));
+    if (ai0.enabled !== true) t('AI already off – nothing saved', true);
+    else await call('config.save', { config: { ...cfg, ai: { ...ai0, enabled: false } } });
+    const after = (await call('config.get')).config;
+    t('AI is off', after.ai?.enabled === false, `changedBy ${after.ai?.changedBy} at ${after.ai?.changedAt}`);
+    const rest = (a) => JSON.stringify({ ...(a || {}), enabled: null, changedAt: null, changedBy: null });
+    t('the other AI settings are unchanged (features, sharing, budget)', rest(after.ai) === rest(ai0), rest(after.ai));
+    const IGNORE = new Set(['ai', 'updatedAt', 'savedAt', 'savedBy']);
+    const diff = [...new Set([...Object.keys(cfg), ...Object.keys(after)])].filter((k) => !IGNORE.has(k) && JSON.stringify(cfg[k]) !== JSON.stringify(after[k]));
+    t('nothing else in the configuration changed', diff.length === 0, diff.join(', ') || 'every other top-level key identical');
+    const log = await call('audit.list').catch(() => []);
+    const hit = (log || []).find((e) => e.action === 'ai.disabled');
+    t('audit shows the switch (ai.disabled)', ai0.enabled !== true || (!!hit && Date.now() - Date.parse(hit.at) < 10 * 60e3), hit ? `${hit.action} by ${hit.byName || hit.by} at ${hit.at}` : ai0.enabled !== true ? 'N/A – nothing was switched in this run' : 'no ai.disabled entry');
+    const boot = await call('bootstrap');
+    t('bootstrap (the browser config) reports AI off', boot.config?.ai?.enabled === false);
+  },
 
   // Every AI feature live, through the real UI: open the screen, click the KI button, wait for the answer (≤ 90 s),
   // check suggestion + reasoning, what was sent (no names, ids, e-mails, URLs) and that every key it names exists.

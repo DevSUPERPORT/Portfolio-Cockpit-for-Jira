@@ -2,7 +2,7 @@
 
 Everything for the Atlassian partner portal. Images are in this folder (see [README](README.md)).
 
-**Status (25 Nov 2026): created as a PRIVATE app – not public, not submitted.** Marketplace app 3718518892
+**Status (26 Nov 2026): PRIVATE app, updated to version 4.3.0 – not public, not submitted.** Marketplace app 3718518892
 (https://marketplace.atlassian.com/apps/3718518892, visible to SUPERPORT contacts only). Filled in: details (tagline, summary,
 categories Project management + Data and analytics, keywords Resource management · Reporting · Time tracking ·
 Roadmapping, logo, banner, support and status links, publishing: "Let me control when app is published"), pricing
@@ -18,7 +18,7 @@ saved as a **draft**). Left for SUPERPORT: the GDPR / CCPA roles and data reside
 | App name | Portfolio Cockpit for Jira (chosen by SUPERPORT in the portal; validated by Atlassian) |
 | App ID | `ari:cloud:ecosystem::app/083d5c93-0586-481d-9c13-6e085bdfad84` |
 | Hosting | Cloud, Forge, **Runs on Atlassian** (no egress; data in Jira and Forge storage; optional AI through Forge LLM, run by Atlassian) |
-| Version to list | Production **4.1.0** (licensing, personal data reporting, E2E fixes); the portal shows it as 4.2.0 |
+| Version to list | Production **4.3.0** (25 Nov 2026: licensing, personal data reporting, E2E fixes incl. all AI features; release notes below) |
 | Product | Jira (Jira Software, Jira Service Management, Jira Work Management); Confluence optional (report publishing) |
 | Payment model | Paid via Atlassian (manifest `app.licensing.enabled: true`; SUPERPORT's own site exempt via `LICENSE_EXEMPT_SITES` until it subscribes) |
 | Categories | Project management; Data and analytics (the portal's current list) |
@@ -30,6 +30,12 @@ saved as a **draft**). Left for SUPERPORT: the GDPR / CCPA roles and data reside
 | Documentation URL | https://github.com/DevSUPERPORT/Portfolio-Cockpit-for-Jira#readme (public repository) |
 | Privacy policy URL | https://www.superport.digital/apps/privacy (app notice: [PRIVACY.md](../../PRIVACY.md)) |
 | EULA URL | https://www.superport.digital/apps/eula |
+
+## Release notes (version 4.3.0)
+
+> Every number in a Lotse story is now backed by its source, including the rank of the first project that cannot be
+> fully staffed. KPI tiles open their breakdown above the tile near the bottom of the window, and plan vs actual tags
+> are easier to read. Includes Marketplace licensing and Atlassian personal data reporting (4.0).
 
 ## Tagline (max 130 characters)
 
@@ -83,6 +89,8 @@ test-site data appears in them.
 > Optional AI (off by default) runs on Atlassian's Forge LLM inside your cloud. German and English, light and dark.
 
 ## Pricing (decided by SUPERPORT on 24 Nov 2026)
+
+> SUPERPORT has since updated the prices in the partner portal; the portal is authoritative, this table may be outdated.
 
 Set in the partner portal under *Pricing* (Cloud). Atlassian bills annual subscriptions at 10× the monthly price.
 $2.00 per user at 11–100 users – twice the Workflow Analyzer's tiers, because the cockpit is a full planning product and
