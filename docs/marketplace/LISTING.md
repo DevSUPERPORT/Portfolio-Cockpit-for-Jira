@@ -8,7 +8,7 @@ categories Project management + Data and analytics, keywords Resource management
 Roadmapping, logo, banner, support and status links, publishing: "Let me control when app is published"), pricing
 (saved as below), version 4.2.0 (Commercial licence, summary, more details, release notes, hero + 3 highlights,
 8 gallery images, documentation = repository README, own EULA), Privacy & Security (all answers saved as a **draft** on 26 Nov 2026,
-see [DATA_SECURITY_PRIVACY.md](DATA_SECURITY_PRIVACY.md)). Left for SUPERPORT: the DPA question and the consent tick on the
+see [DATA_SECURITY_PRIVACY.md](DATA_SECURITY_PRIVACY.md)). Left for SUPERPORT: the consent tick on the
 Privacy & Security tab, then "Submit and publish" there; the Preview-features question to Atlassian; making the app public (= submission for approval).
 
 ## Basics

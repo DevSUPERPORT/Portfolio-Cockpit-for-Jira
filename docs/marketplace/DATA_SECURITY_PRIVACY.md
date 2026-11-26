@@ -22,7 +22,7 @@ code or document that proves it. Attestations are ticked by SUPERPORT.
 | Question | Answer |
 |---|---|
 | Role under GDPR / CCPA | Portal answer (decided by SUPERPORT, 26 Nov 2026): GDPR controller **No**, processor **Yes**; CCPA business **No**, service provider **Yes** – for Atlassian account IDs and display names, Jira work item data, and team membership, capacity and absences. SUPERPORT itself has no access to the site or the app storage. |
-| DPA | Left unanswered in the portal until SUPERPORT decides (no DPA document yet). ⟦CONFIRM⟧ |
+| DPA | **Yes, upon request** (portal answer, 26 Nov 2026). Link: https://www.superport.digital/apps/privacy – it states that SUPERPORT concludes an Art. 28 GDPR agreement with customers on request (the EULA says the same). |
 | Personal data reporting API | Yes: every 6 days all stored account IDs are reported; closed accounts are removed from all app data (`src/lib/privacy.js`). |
 | EEA transfers | None by SUPERPORT. |
 
