@@ -8,7 +8,7 @@ categories Project management + Data and analytics, keywords Resource management
 Roadmapping, logo, banner, support and status links, publishing: "Let me control when app is published"), pricing
 (set by SUPERPORT in the portal), version 4.3.0 (Commercial licence, summary, more details, release notes, hero + 3 highlights,
 8 gallery images, documentation = repository README, own EULA), Privacy & Security (submitted by SUPERPORT on 26 Nov 2026, **pending Atlassian approval**;
-see [DATA_SECURITY_PRIVACY.md](DATA_SECURITY_PRIVACY.md)). Left for SUPERPORT: the Preview-features question to Atlassian; publishing the app once Atlassian approves it.
+see [DATA_SECURITY_PRIVACY.md](DATA_SECURITY_PRIVACY.md)). Marketplace review (26 Nov 2026): Privacy & Security and the Forge security questionnaire submitted; Atlassian's functionality review takes about 10 business days. Left for SUPERPORT: the Preview-features question to Atlassian; publishing the app once Atlassian approves it.
 
 ## Basics
 
