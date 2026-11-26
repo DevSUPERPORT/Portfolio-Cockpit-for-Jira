@@ -2,13 +2,13 @@
 
 Everything for the Atlassian partner portal. Images are in this folder (see [README](README.md)).
 
-**Status (26 Nov 2026): PRIVATE app, updated to version 4.3.0 – not public, not submitted.** Marketplace app 3718518892
+**Status (26 Nov 2026): submitted for Atlassian approval – version 4.3.0 made public, release behaviour "Let me control when app is published" (goes live only when SUPERPORT publishes it after approval).** Marketplace app 3718518892
 (https://marketplace.atlassian.com/apps/3718518892, visible to SUPERPORT contacts only). Filled in: details (tagline, summary,
 categories Project management + Data and analytics, keywords Resource management · Reporting · Time tracking ·
 Roadmapping, logo, banner, support and status links, publishing: "Let me control when app is published"), pricing
 (set by SUPERPORT in the portal), version 4.3.0 (Commercial licence, summary, more details, release notes, hero + 3 highlights,
 8 gallery images, documentation = repository README, own EULA), Privacy & Security (submitted by SUPERPORT on 26 Nov 2026, **pending Atlassian approval**;
-see [DATA_SECURITY_PRIVACY.md](DATA_SECURITY_PRIVACY.md)). Left for SUPERPORT: the Preview-features question to Atlassian; making the app public (= submission for approval).
+see [DATA_SECURITY_PRIVACY.md](DATA_SECURITY_PRIVACY.md)). Left for SUPERPORT: the Preview-features question to Atlassian; publishing the app once Atlassian approves it.
 
 ## Basics
 
